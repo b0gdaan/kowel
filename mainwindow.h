@@ -20,9 +20,19 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pushButton_7_clicked();
+
+    void on_pushButton_8_clicked();
+
+    void on_pushButton_9_clicked();
+
+    void on_pushButton_10_clicked();
+
 private:
     Ui::MainWindow *ui;
     //вот это для хранения текущего значения
-    double currentValue;
+    double currentValueEvro;
+    double currentValueRubl;
+    double currentValueDinar;
 };
 #endif // MAINWINDOW_H
