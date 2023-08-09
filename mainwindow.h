@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void updateDatabaseValues();
 
 private slots:
     void on_pushButton_clicked();
@@ -31,8 +32,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     //вот это для хранения текущего значения
-    double currentValueEvro;
-    double currentValueRubl;
-    double currentValueDinar;
+    double currentValueEvro = 0;
+    double currentValueRubl = 0;
+    double currentValueDinar = 0;
 };
 #endif // MAINWINDOW_H

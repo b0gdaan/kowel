@@ -10,31 +10,49 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    currentValueEvro    = 0.0;
-    currentValueRubl    = 0.0;
-    currentValueDinar   = 0.0;
 
     // Подключение к базе данных
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("database.db"); // Имя файла базы данных
-
-    if (!db.open()) {
-        qDebug() << "Ошибка при открытии базы данных!";
-    }
-
-    // Создание таблицы, если она не существует
-    QSqlQuery query;
-    query.exec("CREATE TABLE IF NOT EXISTS my_values (id INTEGER PRIMARY KEY AUTOINCREMENT, value REAL)");
+    db.setDatabaseName("database1.db"); // Имя файла базы данных
 
     if (!db.open()) {
         qDebug() << "Ошибка при открытии базы данных: " << db.lastError().text();
     }
 
+    // Создание таблицы, если она не существует
+    QSqlQuery query;
+    query.exec("CREATE TABLE IF NOT EXISTS my_values (id INTEGER PRIMARY KEY AUTOINCREMENT, euro REAL, ruble REAL, dinar REAL)");
+
+    // Чтение сохраненных значений из базы данных и присвоение переменным
+    query.exec("SELECT * FROM my_values");
+    if (query.next()) {
+        currentValueEvro = query.value(1).toDouble();
+        currentValueRubl = query.value(2).toDouble();
+        currentValueDinar = query.value(3).toDouble();
+
+        // Обновление меток
+        ui->label_6->setText("Евро: " + QString::number(currentValueEvro));
+        ui->label_7->setText("Рубль: " + QString::number(currentValueRubl));
+        ui->label_2->setText("Динар: " + QString::number(currentValueDinar));
+    }
 }
+
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateDatabaseValues()
+{
+    QSqlQuery query;
+    query.prepare("UPDATE my_values SET euro = :euro, ruble = :ruble, dinar = :dinar WHERE id = 1");
+    query.bindValue(":euro", currentValueEvro);
+    query.bindValue(":ruble", currentValueRubl);
+    query.bindValue(":dinar", currentValueDinar);
+    query.exec();
+    qDebug() << "Values updated in the database";
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -48,6 +66,16 @@ void MainWindow::on_pushButton_clicked()
 
     qDebug() << "Button 1 clicked. Current value: " << currentValueEvro;
     ui->lineEdit->clear();
+
+    // Запись текущих значений в базу данных
+    QSqlQuery query;
+    query.prepare("UPDATE my_values SET euro = :euro, ruble = :ruble, dinar = :dinar WHERE id = 1");
+    query.bindValue(":euro", currentValueEvro);
+    query.bindValue(":ruble", currentValueRubl);
+    query.bindValue(":dinar", currentValueDinar);
+    query.exec();
+
+    updateDatabaseValues();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -61,6 +89,14 @@ void MainWindow::on_pushButton_2_clicked()
 
     qDebug() << "Button 2 clicked. Current value: " << currentValueEvro;
     ui->lineEdit->clear();
+
+    // Запись текущих значений в базу данных
+    QSqlQuery query;
+    query.prepare("UPDATE my_values SET euro = :euro, ruble = :ruble, dinar = :dinar WHERE id = 1");
+    query.bindValue(":euro", currentValueEvro);
+    query.bindValue(":ruble", currentValueRubl);
+    query.bindValue(":dinar", currentValueDinar);
+    query.exec();
 }
 
 void MainWindow::on_pushButton_7_clicked()
@@ -74,6 +110,14 @@ void MainWindow::on_pushButton_7_clicked()
 
     qDebug() << "Button 7 clicked. Current value: " << currentValueRubl;
     ui->lineEdit_2->clear();
+
+    // Запись текущих значений в базу данных
+    QSqlQuery query;
+    query.prepare("UPDATE my_values SET euro = :euro, ruble = :ruble, dinar = :dinar WHERE id = 1");
+    query.bindValue(":euro", currentValueEvro);
+    query.bindValue(":ruble", currentValueRubl);
+    query.bindValue(":dinar", currentValueDinar);
+    query.exec();
 }
 
 
@@ -88,10 +132,16 @@ void MainWindow::on_pushButton_8_clicked()
 
     qDebug() << "Button 8 clicked. Current value: " << currentValueRubl;
     ui->lineEdit_2->clear();
+
+
+    // Запись текущих значений в базу данных
+    QSqlQuery query;
+    query.prepare("UPDATE my_values SET euro = :euro, ruble = :ruble, dinar = :dinar WHERE id = 1");
+    query.bindValue(":euro", currentValueEvro);
+    query.bindValue(":ruble", currentValueRubl);
+    query.bindValue(":dinar", currentValueDinar);
+    query.exec();
 }
-
-
-
 
 
 void MainWindow::on_pushButton_9_clicked()
@@ -105,6 +155,16 @@ void MainWindow::on_pushButton_9_clicked()
 
     qDebug() << "Button 9 clicked. Current value: " << currentValueDinar;
     ui->lineEdit_3->clear();
+
+
+
+    // Запись текущих значений в базу данных
+    QSqlQuery query;
+    query.prepare("UPDATE my_values SET euro = :euro, ruble = :ruble, dinar = :dinar WHERE id = 1");
+    query.bindValue(":euro", currentValueEvro);
+    query.bindValue(":ruble", currentValueRubl);
+    query.bindValue(":dinar", currentValueDinar);
+    query.exec();
 }
 
 
@@ -119,5 +179,14 @@ void MainWindow::on_pushButton_10_clicked()
 
     qDebug() << "Button 9 clicked. Current value: " << currentValueDinar;
     ui->lineEdit_3->clear();
-}
 
+
+
+    // Запись текущих значений в базу данных
+    QSqlQuery query;
+    query.prepare("UPDATE my_values SET euro = :euro, ruble = :ruble, dinar = :dinar WHERE id = 1");
+    query.bindValue(":euro", currentValueEvro);
+    query.bindValue(":ruble", currentValueRubl);
+    query.bindValue(":dinar", currentValueDinar);
+    query.exec();
+}
